@@ -1,7 +1,13 @@
 # MQTT Automations
-Allows control of lights and power outlets with Zigbee2MQTT (using an IKEA switch).
+Allows control of lights and power outlets with Zigbee2MQTT _(using an IKEA switch)_.
 
 This project assumes that you already have an MQTT broker.
+
+Supported lights and power outlets:
+ - Elgato _(Key Light)_
+ - WiZ
+ - Yeelight _(Screenbar)_
+ - Zigbee2MQTT
 
 ## 🛒 Dependencies
 Open a terminal in the project folder once it has been downloaded. Running this command will download all the dependencies required for it to work.
@@ -11,7 +17,7 @@ jag pkg install
 ```
 
 ## 🗲 Flash
-Please connect an ESP before running the following command. It will be reset, and the Toit.io engine will be installed in its place.
+Please connect an ESP before running the following command. It will be reset, and the __Toit.io__ engine will be installed in its place.
 
 ```shell
 jag flash esp32-no-ble
@@ -25,12 +31,12 @@ You must add the credentials and the connection address for the MQTT broker in t
 Make sure `LED_BUILTIN` matches the one on your ESP, or set the value to `-1`.
 
 ### ⏻ Communication Type
-The `devices` folder includes all types of connections (not just MQTT).
+The `devices` folder includes all types of connections _(not just MQTT)_.
 
-For testing, you can use only `devices/debug.toit` by setting your device's `protocol` to `Debug` (you’ll still need a switch as an actuator).
+For testing, you can use only `devices/debug.toit` by setting your device's `protocol` to `Debug` _(you’ll still need a switch as an actuator)_.
 
 ### 🚩 Switches
-To register devices, everything is located in the `rooms` folder. Each file corresponds to a room, but you can organize them however you like (only one file per switch).
+To register devices, everything is located in the `rooms` folder. Each file corresponds to a room, but you can organize them however you like _(only one file per switch)_.
 
 The `init.toit` file gathers the initialization of all your rooms (debug is enabled by default, don’t forget to change the switch topic).
 

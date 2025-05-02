@@ -4,6 +4,7 @@ import ..enums
 import ..devices.debug as debug
 import ..devices.elgato as elgato
 import ..devices.wiz as wiz
+import ..devices.yeelight as yeelight
 import ..devices.z2m as z2m
 
 import ..utils
@@ -42,6 +43,9 @@ send-commands devices
     else if device == DEVICE_PROTOCOL.WiZ:
       name = wiz.name
       wiz.send addr --state=state --brightness=brightness --temperature=temperature --rgb=rgb
+    else if device == DEVICE_PROTOCOL.Yeelight:
+      name = yeelight.name
+      yeelight.send addr --state=state --brightness=brightness --temperature=temperature --rgb=rgb
     else if device == DEVICE_PROTOCOL.Zigbee2MQTT:
       name = z2m.name
       z2m.send addr --state=state --brightness=brightness --temperature=temperature --rgb=rgb
@@ -270,6 +274,7 @@ class Listen:
 
       "state": false,
       "actions": Map,
+      "doubleclick": List,
       "doubleclick_all_off": doubleclick-all-off,
 
       "color_state": (or-else (store.get "color") null 0),
@@ -315,6 +320,9 @@ class Listen:
 
       mode/int ::= this.get-mode_ action direction
       if not device["actions"].contains mode:
+        if action == DEVICE_ACTION.Doubleclick and not (device["doubleclick"].any: it == direction):
+          device["doubleclick"].add direction
+
         device["actions"][mode] = {
           "delay": delay,
           "reset": reset-index,
@@ -360,8 +368,15 @@ class Listen:
     current-devices/List := get-devices_ ((index >= 0 and index < this.devices_.size) ? index : this.index_)
     for d := 0; d < current-devices.size; ++d:
       current-device/Map := current-devices[d]
+      current-longpress/bool ::= (mode_action == DEVICE_ACTION.Longpress)
 
-      this.longpress-timestamp_ = send-mode this.action-mode_ current-device --is-longpress=(mode_action == DEVICE_ACTION.Longpress) --is-doubleclick=doubleclick
+      current-doubleclick/bool := doubleclick
+      current-action/int := this.action-mode_
+      if mode_action == DEVICE_ACTION.Doubleclick and not (current-device["doubleclick"].any: it == mode_direction):
+        current-doubleclick = false
+        current-action += DEVICE_ACTION.Simpleclick - DEVICE_ACTION.Doubleclick
+
+      this.longpress-timestamp_ = send-mode current-action current-device --is-longpress=current-longpress --is-doubleclick=current-doubleclick
       if this.longpress-timestamp_ == 0:
         this.action-mode_ = 0
 

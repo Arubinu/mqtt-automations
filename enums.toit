@@ -8,7 +8,8 @@ class DEVICE_PROTOCOL:
   static Debug ::= 1
   static Elgato ::= 2
   static WiZ ::= 3
-  static Zigbee2MQTT ::= 4
+  static Yeelight ::= 4
+  static Zigbee2MQTT ::= 5
 
 class DEVICE_ACTION:
   static Simpleclick ::= 0

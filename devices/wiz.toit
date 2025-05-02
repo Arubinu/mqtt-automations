@@ -35,10 +35,11 @@ send addr/string --state/bool=true --brightness/int=-1 --temperature/int=-1 --rg
     data["params"]["g"] = rgb[1]
     data["params"]["b"] = rgb[2]
 
-  network_interface := net.open
-  socket := network_interface.udp-open
+  network := net.open
+  socket := network.udp-open
   socket_address := net.SocketAddress (net.IpAddress.parse addr) port
   socket.connect socket_address
 
   datagram := udp.Datagram (json.encode data) socket_address
   socket.send datagram
+  socket.close
