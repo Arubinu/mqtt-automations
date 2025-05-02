@@ -1,0 +1,15 @@
+sdk: ^2.0.0-alpha.161
+prefixes:
+  http: pkg-http
+  mqtt: mqtt
+packages:
+  mqtt:
+    url: github.com/toitware/mqtt
+    name: mqtt
+    version: 2.13.0
+    hash: d11d8e786f0a81c9b9b6157f90eb4f7f4ebbfa9c
+  pkg-http:
+    url: github.com/toitlang/pkg-http
+    name: http
+    version: 2.9.0
+    hash: ed6e198259c578154de830dc492821fdb5a40c7a

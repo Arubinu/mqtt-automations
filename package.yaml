@@ -1,0 +1,7 @@
+dependencies:
+  http:
+    url: github.com/toitlang/pkg-http
+    version: ^2.9.0
+  mqtt:
+    url: github.com/toitware/mqtt
+    version: ^2.13.0
